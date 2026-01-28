@@ -15,16 +15,18 @@ body{
     align-items:center;
     background:#000;
     font-family:"Georgia", serif;
+    overflow: hidden;
 }
 
 .heart{
     width:140px;
     height:140px;
     background:#ff4d6d;
-    position:absolute;
+    position:relative;
     transform:rotate(-45deg);
     cursor:pointer;
     z-index : 10;
+    animation: heartbeat 1.8s infinite;
 }
 
 .heart::before,
@@ -153,4 +155,5 @@ function drawBouquet(){
 
 </body>
 </html>
+
 
