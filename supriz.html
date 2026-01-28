@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=4.0">
+<title>Surpiz ❤️</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:#000;
+    font-family:"Georgia", serif;
+}
+
+.heart{
+    width:140px;
+    height:140px;
+    background:#ff4d6d;
+    position:absolute;
+    transform:rotate(-45deg);
+    cursor:pointer;
+    z-index : 10;
+}
+
+.heart::before,
+.heart::after{
+    content:"";
+    width:140px;
+    height:140px;
+    background:#ff4d6d;
+    border-radius:50%;
+    position:absolute;
+}
+
+.heart::before{ top:-70px; left:0; }
+.heart::after{ left:70px; top:0; }
+
+.text{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:rotate(45deg) translate(-50%,-50%);
+    color:white;
+    font-weight:bold;
+    text-align:center;
+    font-size:15px;
+    line-height:1.2;
+    z-index:20;   /* 👈 BU KRİTİK */
+    pointer-events:none;
+}
+}
+
+canvas{
+    display:none;
+}
+
+.poem{
+    display:none;
+    color:#f5f5f5;
+    margin-top:20px;
+    text-align:center;
+    max-width:300px;
+    line-height:1.6;
+    font-size:16px;
+}
+@keyframes heartbeat {
+    0%   { transform: rotate(-45deg) scale(1); }
+    15%  { transform: rotate(-45deg) scale(1.06); }
+    30%  { transform: rotate(-45deg) scale(1); }
+    45%  { transform: rotate(-45deg) scale(1.06); }
+    60%  { transform: rotate(-45deg) scale(1); }
+    100% { transform: rotate(-45deg) scale(1); }
+}
+
+.heart{
+    animation: heartbeat 1.8s infinite;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="heart" onclick="drawBouquet()">
+   <div class="text">Bana<br>Basar mısın<br>Sinem</div>
+</div>
+
+<canvas id="canvas" width="340" height="420"></canvas>
+
+<div class="poem" id="poem">
+    Siyah bir zeminde açtı bu çiçek,<br>
+    Dokunmadım, koparmadım…<br>
+    Sadece sana çizdim.<br><br>
+
+    Çünkü bazı nergisler<br>
+    Ellerde değil,<br>
+    Kalpte taşınır.
+</div>
+
+<script>
+function drawFlower(ctx, x, y, scale){
+    // Sap
+    ctx.strokeStyle="#2e7d32";
+    ctx.lineWidth=4;
+    ctx.beginPath();
+    ctx.moveTo(x,y+90*scale);
+    ctx.lineTo(x,y);
+    ctx.stroke();
+
+    // Taç yapraklar
+    ctx.fillStyle="#ffffff";
+    for(let i=0;i<6;i++){
+        ctx.save();
+        ctx.translate(x,y);
+        ctx.rotate(i*Math.PI/3);
+        ctx.beginPath();
+        ctx.ellipse(0,-22*scale,10*scale,22*scale,0,0,Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+    }
+
+    // Orta
+    ctx.fillStyle="#fbc02d";
+    ctx.beginPath();
+    ctx.arc(x,y,7*scale,0,Math.PI*2);
+    ctx.fill();
+}
+
+function drawBouquet(){
+    document.querySelector('.heart').style.display="none";
+
+    const canvas=document.getElementById("canvas");
+    canvas.style.display="block";
+    const ctx=canvas.getContext("2d");
+
+    ctx.fillStyle="#000";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    drawFlower(ctx,170,150,1.4);
+    drawFlower(ctx,140,170,1.1);
+    drawFlower(ctx,200,180,1.1);
+    drawFlower(ctx,120,200,0.9);
+    drawFlower(ctx,220,200,0.9);
+
+    document.getElementById("poem").style.display="block";
+}
+</script>
+
+</body>
+</html>
